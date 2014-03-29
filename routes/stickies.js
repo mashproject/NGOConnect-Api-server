@@ -4,10 +4,13 @@ Routes for stickies
 
 */
 
-var db = require('../db.js');
+var dbconfig = require('../db.js');
+var db = dbconfig.db;
+
+var mongojs = dbconfig.mongojs;
 var mycollection = db.collection('stickies');
 
-var mongojs = require('mongojs');
+
 
 
 exports.findAll = function(req, res) {
