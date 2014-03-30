@@ -4,6 +4,8 @@ var express = require('express'),
 var app = express();
  
 
+var port = process.env.PORT || 3000;
+
 app.configure(function () {
     app.use(express.logger('dev'));     
     app.use(express.bodyParser());
@@ -14,5 +16,5 @@ app.get('/pinboard', stickies.findAll);
 app.get('/pinboard/:id', stickies.detaild);
 app.get('/test', stickies.test);
  
-app.listen(3000);
+app.listen(port);
 console.log('Listening on port 3000...');
