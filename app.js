@@ -11,6 +11,14 @@ app.configure(function () {
     app.use(express.bodyParser());
 });
 
+/* enabling CORS see : http://www.html5rocks.com/en/tutorials/cors/ */
+app.all('*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+ });
+
+
 app.get('/', stickies.findAll);
 app.get('/pinboard', stickies.findAll);
 app.get('/pinboard/:id', stickies.detaild);
