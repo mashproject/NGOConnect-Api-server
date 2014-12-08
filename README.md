@@ -44,7 +44,7 @@ NGOConnect-Api-server
 
 	>**>db.xyz.drop()**     -> remove a collection
 	
-7. For doing the above tasks using NodeJs #####example#####: 
+7. For doing the above tasks using NodeJs *example*: 
 
 ```
 var dburl = 'localhost/mydb';
@@ -70,3 +70,4 @@ mdb.xyz.save(xyz1, function(err, savedXyz){
 	else console.log("Xyz "+ savedXyz.firstname +" saved")
 }); //requires call back funciton, follows nodejs.
 ```	
+8. Copy the code snippet, paste and save it as a .js file and run with ***$ node example.js***.
