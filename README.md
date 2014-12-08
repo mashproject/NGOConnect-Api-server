@@ -60,7 +60,6 @@ function xyz(firstname, lastname){ //constructor
 }
 
 
-
 //creating an xyz object.
 
 var xyz1 = new xyz('namrata','gupta');
