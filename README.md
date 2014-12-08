@@ -40,7 +40,7 @@ Integration with our Server:
 
 7. For doing the above tasks using NodeJs example: 
 
-'
+```
 var dburl = 'localhost/mydb';
 var collections = ['xyz']; // a xyz model object will be used, for sending collections to db.
 
@@ -63,4 +63,4 @@ mdb.xyz.save(xyz1, function(err, savedXyz){
 	if(err) console.log(err);
 	else console.log("Xyz "+ savedXyz.firstname +" saved")
 }); //requires call back funciton, follows nodejs.
-'
+```
