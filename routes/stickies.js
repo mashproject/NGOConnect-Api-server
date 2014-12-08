@@ -62,7 +62,7 @@ exports.saveEntry = function(req, res) {
 
 var ng1 = new ng(req.body.headname, req.body.ngoname);
 //Note: when sending post data,through POSTMAN, for sending ngo's headname as postdata:
-//      in 'name' field type 'headname' and in value type its respective value->'hemant'. refer to postman_postdata.png for details.
+//      in 'name' field type 'headname' and in value type its respective value->'hemant'. refer to postman_example.png for details.
 
 //saving the ng1 object in our collection named NGO.
 db.ngo.save(ng1, function(err, savedngo){
