@@ -69,7 +69,7 @@ db.ngo.save(ng1, function(err, savedngo){
     if(err) console.log(err);
     else{
          console.log("Ngo "+ savedngo.ngoname +" saved");
-         res.send("NGO: "+req.body.ngoname+ "  is now saved in our database.");
+         res.send("NGO: "+savedngo.ngoname+ "  is now saved in our database.");
 
     }
 }); //requires call back funciton, follows nodejs.
