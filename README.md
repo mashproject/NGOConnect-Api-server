@@ -2,7 +2,7 @@ NGOConnect-Api-server
 =====================
 
 ###Database Used: MongoDB###
-
+	
 #####Why we've used MongoDB?#####
 
 1. MongoDB is a database but is not in SQL family of databases, i.e. its not a relational database,
@@ -21,7 +21,7 @@ NGOConnect-Api-server
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
-Integration with NodeJS Server:
+####Integration with NodeJS Server:####
 
 1. MongoJS is a very simple wrapper for MongoDB driver for NODEJS, it mimics the actual MongoDB Api very closely.
 2. Grab MongoJS : npm install mongojs
@@ -44,7 +44,7 @@ Integration with NodeJS Server:
 
 	>**>db.xyz.drop()**     -> remove a collection
 	
-7. For doing the above tasks using NodeJs example: 
+7. For doing the above tasks using NodeJs #####example#####: 
 
 ```
 var dburl = 'localhost/mydb';
