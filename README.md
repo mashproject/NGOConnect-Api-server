@@ -31,12 +31,12 @@ Integration with our Server:
 
 5. !! To construct a database to use in url, first go to terminal and type "mongo newdatabasename", this will create your new database. Type help in mongo interpreter.
 6. Some basic commands for the Mongo interpreter: 
-	>$ show dbs
-	>$ how collections  -> show existing collections in a database
-	>$ db.xyz.save({'firstname':'hemant', 'lastname': 'kumar'}) -> save to the collection 'xyz'
-	>$ show collections  -> result : xyz
-	>$ db.xyz.find()     -> finds all the records in a collection.
-	>$ db.xyz.drop()     -> remove a collection
+	>  >show dbs
+	> >how collections  -> show existing collections in a database
+	> >db.xyz.save({'firstname':'hemant', 'lastname': 'kumar'}) -> save to the collection 'xyz'
+	> >show collections  -> result : xyz
+	> >db.xyz.find()     -> finds all the records in a collection.
+	> >db.xyz.drop()     -> remove a collection
 
 7. For doing the above tasks using NodeJs example: 
 
