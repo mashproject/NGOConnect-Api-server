@@ -1,7 +1,7 @@
 NGOConnect-Api-server
 =====================
 
-API server
+#Database Used: MongoDB#
 
 MongoDB Integration with our server, Using MongoJS module.
 
@@ -21,7 +21,7 @@ Steps to setup MongoDB server:
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
-Integration with our Server:
+Integration with NodeJS Server:
 
 1. MongoJS is a very simple wrapper for MongoDB driver for NODEJS, it mimics the actual MongoDB Api very closely.
 2. Grab MongoJS : npm install mongojs
