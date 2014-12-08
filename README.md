@@ -3,7 +3,7 @@ NGOConnect-Api-server
 
 ###Database Used: MongoDB###
 
-MongoDB Integration with our server, Using MongoJS module.
+#####Why we've used MongoDB?#####
 
 1. MongoDB is a database but is not in SQL family of databases, i.e. its not a relational database,
 2. MongoDB is a document oriented database, that is it stores structured data as JSON like documents with dynamic schemas. Instead of storing data in tables, which is 		what RDB do.
@@ -12,7 +12,7 @@ MongoDB Integration with our server, Using MongoJS module.
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-Steps to setup MongoDB server:
+####Steps to setup MongoDB server:####
 
 1. Download and install your OS specific bundle from: http://mongodb.org/downloads
 2. Launch MongoDB : $ (sudo) mongod
