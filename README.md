@@ -70,5 +70,3 @@ mdb.xyz.save(xyz1, function(err, savedXyz){
 	else console.log("Xyz "+ savedXyz.firstname +" saved")
 }); //requires call back funciton, follows nodejs.
 ```	
-
-8. C
