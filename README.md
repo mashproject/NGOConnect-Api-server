@@ -48,12 +48,13 @@ Integration with our Server:
 
 ```
 var dburl = 'localhost/mydb';
-var collections = ['xyz']; // a xyz model object will be used, for sending collections to db.
+var collections = ['xyz']; // a xyz model object will be later used.
 
 var mdb = require('mongojs').connect(dburl, collections);
 
-//A xyz model object, (blue print for the collection xyz)
 
+
+//A xyz model object, (blue print for the collection xyz)
 function xyz(firstname, lastname){ //constructor
 	this.firstname = firstname;
 	this.lastname = lastname;
