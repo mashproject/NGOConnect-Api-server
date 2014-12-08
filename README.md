@@ -36,13 +36,13 @@ Integration with our Server:
 
 	>*>show collections;*  -> show existing collections in a database
 	
-	>db.xyz.save({'firstname':'hemant', 'lastname': 'kumar'}) -> save to the collection 'xyz'
+	>*>db.xyz.save({'firstname':'hemant', 'lastname': 'kumar'})* -> save to the collection 'xyz'
 	
-	>show collections  -> result : xyz
+	>*>show collections*  -> result : xyz
 	
-	>db.xyz.find()     -> finds all the records in a collection.
-	
-	>db.xyz.drop()     -> remove a collection
+	>*>db.xyz.find()*     -> finds all the records in a collection.
+
+	>*>db.xyz.drop()*     -> remove a collection
 	
 7. For doing the above tasks using NodeJs example: 
 
