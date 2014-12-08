@@ -70,4 +70,5 @@ mdb.xyz.save(xyz1, function(err, savedXyz){
 	else console.log("Xyz "+ savedXyz.firstname +" saved")
 }); //requires call back funciton, follows nodejs.
 ```	
+
 8. Copy the code snippet, paste and save it as a .js file and run with ***$ node example.js***.
