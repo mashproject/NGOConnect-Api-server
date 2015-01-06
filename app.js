@@ -21,6 +21,23 @@ app.all('*', function(req, res, next) {
 
 app.get('/', stickies.findAll);
 app.get('/pinboard', stickies.findAll);
+
+
+
+/*
+changes made 8December2014, by Hemant kumar.
+*/
+
+//Handling post requests for this URL, calling a function from stickies.js.
+
+app.post('/pinboard', stickies.saveEntry);
+
+/*
+changes end
+*/
+
+
+
 app.get('/pinboard/:id', stickies.detaild);
 app.get('/test', stickies.test);
  
