@@ -12,7 +12,6 @@ app.configure(function () {
     app.use(express.bodyParser());
 });
 
-
 /* enabling CORS see : http://www.html5rocks.com/en/tutorials/cors/ */
 app.all('*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -21,7 +20,6 @@ app.all('*', function(req, res, next) {
  });
 
 app.listen(port);
-console.log('Listening on port 3000...');
 app.get('/', function(req, res) {
     db.stickies.find(function(err, docs) {
 
