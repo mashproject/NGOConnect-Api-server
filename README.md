@@ -10,6 +10,7 @@ NGOConnect-Api-server
 3. Pass a JSON object, it stores them easily without predefining the schema(the fact that it takes JSON objects directly makes it ideal for NODEJS), this data 			 flexibility has made MongoDB so popular.
 
 
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ####Steps to setup MongoDB server:####
@@ -19,7 +20,7 @@ NGOConnect-Api-server
 
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 ####Integration with NodeJS Server:####
 
@@ -70,3 +71,22 @@ mdb.xyz.save(xyz1, function(err, savedXyz){
 	else console.log("Xyz "+ savedXyz.firstname +" saved")
 }); //requires call back funciton, follows nodejs.
 ```	
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+#### Node.js Session Based Login implementation
+
+This project shows how to implement basic user authentication in a Node.js web
+app. Database used is MongoDB.
+
+
+**NOTE**: You must have MongoDB installed and working locally in order to run
+this project.
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+####Developers
+Hemant Kumar - hemant6488@gmail.com
+Kartik Jain  - kartikj2012@gmail.com
