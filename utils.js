@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 var express = require('express');
 var mongoose = require('mongoose');
 var session = require('client-sessions');
-
+require('dotenv').load();
 var middleware = require('./middleware');
 
 /**
@@ -56,7 +56,7 @@ module.exports.createApp = function() {
   app.use(bodyParser.json());
   app.use(session({
     cookieName: 'session',
-    secret: 'somerandomstringasndjksajnjndkcasdnascdnjkcajksdjnkjsnd',
+    secret: process.env.secret_key,
     duration: 30 * 60 * 1000,
     activeDuration: 5 * 60 * 1000,
   }));
