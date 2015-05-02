@@ -19,8 +19,11 @@ router.get('/register', function(req, res) {
  * Once a user is logged in, they will be sent to the dashboard page.
  */
 router.post('/register', function(req, res) {
+  console.log(req.body);
   var salt = bcrypt.genSaltSync(10);
   var hash = bcrypt.hashSync(req.body.password, salt);
+
+
 
   var user = new models.User({
     firstName:  req.body.firstName,

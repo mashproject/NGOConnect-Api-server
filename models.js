@@ -16,3 +16,6 @@ module.exports.User = mongoose.model('User', new Schema({
   password:     { type: String, required: '{PATH} is required.' },
   data:         Object,
 }));
+
+
+
