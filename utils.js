@@ -43,15 +43,20 @@ module.exports.createApp = function() {
   mongoose.connect('mongodb://localhost/ngo1');
 
   var app = express();
-
+  app.all('*', function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With, Authorization, Content-Type');
+    next();
+  });
   // settings
  // app.set('view engine', 'jade');
 
   // middleware
   app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json());
   app.use(session({
     cookieName: 'session',
-    secret: 'keyboard cat',
+    secret: 'somerandomstringasndjksajnjndkcasdnascdnjkcajksdjnkjsnd',
     duration: 30 * 60 * 1000,
     activeDuration: 5 * 60 * 1000,
   }));
@@ -60,8 +65,7 @@ module.exports.createApp = function() {
 
   // routes
   app.use(require('./routes/auth'));
-  app.use(require('./routes/main'));
-
+  app.use(require('./routes/main')); 
   return app;
 };
 

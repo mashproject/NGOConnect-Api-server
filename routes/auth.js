@@ -18,7 +18,7 @@ router.get('/register', function(req, res) {
  *
  * Once a user is logged in, they will be sent to the dashboard page.
  */
-router.post('/register', function(req, res) {
+router.post('/register', function(req, res) {  
   var salt = bcrypt.genSaltSync(10);
   var hash = bcrypt.hashSync(req.body.password, salt);
 
@@ -64,7 +64,7 @@ router.get('/login', function(req, res) {
 
 
 router.post('/login', function(req, res) {
-  console.log(req);
+  
   models.User.findOne({ email: req.body.email }, 'firstName lastName email password data', function(err, user) {
     if (!user) {
       res.json({"res_code":4007});

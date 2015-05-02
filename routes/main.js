@@ -15,6 +15,8 @@ router.get('/', function(req, res) {
  * Render the dashboard page.
  */
 router.get('/dashboard', utils.requireLogin, function(req, res) {
+	console.log('dashboard reached');
+	res.json(1);
   //res.render('dashboard.jade');
 });
 
