@@ -37,69 +37,68 @@ router.post('/register', function(req, res) {
     user.save(function(err) {
         if (err) {
           var error = 'Something bad happened! Please try again.';
-
           if (err.code === 11000) {
             error = 'That email is already taken, please try another.';
             res.json({"res_code":4005});
           } else { 
             res.json({"res_code":4006, "error":err})
           }
-          
           //res.render('register.jade', { error: error });
-
         } else {//if email and password are successfully stored, then store volunteer or NGO details.
 
-          if(req.body.usertype == 0){ //0 for volunteer, 1 for NGO
+              if(req.body.usertype == 0){ 
 
-            var user = new models.Volunteer({
-              first_name:  req.body.first_name,
-              last_name:   req.body.last_name
-            });
+              //0 for volunteer, 1 for NGO
+                var volunteer = new models.Volunteer({
+                  first_name:  req.body.first_name,
+                  last_name:   req.body.last_name,
+                  contact:     req.body.contact,
+                  address:     req.body.address,
+                  dob:         req.body.dob,
+                  location:    req.body.location,
+                  gender:      req.body.gender,
+                  resume:      req.body.resume
+                });
 
-            volunteer.save(function(err) {
-              if (err) {
-                  var error = 'Something bad happened! Please try again.';
-                  res.json({"res_code":4006, "error":err})
-            }
+                volunteer.save(function(err) {
+                  if (err) {
+                      var error = 'Something bad happened! Please try again.';
+                      res.json({"res_code":4006, "error":err})
+                  }
+                }
+
+               }else if(req.body.usertype==1){ // if NGO details to be saved.
+
+                var ngo = new models.Ngo({
+                  name:                 req.body.name,
+                  location:             req.body.location,
+                  //date_created needs to be added here.
+                  registration_status:  req.body.registration_status,
+                  description:          req.body.description,
+                  contact:              req.body.contact,
+                  contact_person:       req.body.contact_person,
+                  website:              req.body.website
+                });
+
+                ngo.save(function(err) {
+                  if (err) {
+                      var error = 'Something bad happened! Please try again.';
+                      res.json({"res_code":4006, "error":err})
+                }
+                  
+                  //res.render('register.jade', { error: error });
+
+                }
+
+              }
               
-              //res.render('register.jade', { error: error });
+              //if users collection is updated successfully and then entries to NGO or Volunteer collection has been entered successfully then create session for the user and log him/her in.            
 
-            }
-
-
-
-          } else if(req.body.usertype==1){ // NGO details to be saved.
-
-            var user = new models.Ngo({
-              first_name:  req.body.first_name,
-              last_name:   req.body.last_name
-            });
-
-            Ngo.save(function(err) {
-              if (err) {
-                  var error = 'Something bad happened! Please try again.';
-                  res.json({"res_code":4006, "error":err})
-            }
-              
-              //res.render('register.jade', { error: error });
-
-            }
-
-          }
-
-
-            
-
-          utils.createUserSession(req, res, user);
-          res.json({"res_code":4001});
-          //res.redirect('/dashboard');
+              utils.createUserSession(req, res, user);
+              res.json({"res_code":4001});
+              //res.redirect('/dashboard');
         }
       });
-
-
-
-    
-
   
 });
 

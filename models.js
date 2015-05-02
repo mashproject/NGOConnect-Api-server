@@ -10,12 +10,31 @@ var ObjectId = Schema.ObjectId;
  */
 module.exports.User = mongoose.model('User', new Schema({
   id:           ObjectId,
-  firstName:    { type: String, required: true },
-  lastName:     { type: String, required: true },
   email:        { type: String, required: true , unique: true },
   password:     { type: String, required: true },
   data:         Object,
 }));
+
+
+//--------------------Volunteer Collection Model------------------------------
+module.exports.Volunteer = mongoose.model('Volunteer', new Schema({
+  id:           ObjectId,
+  //Ngo_id   = auto incrementing variable needed. (Unique)
+  first_name: 	    		{ type: String, required: true },
+  last_name: 	    		{ type: String, required: true },
+  dob: 						{ type: Date },
+  contact:    				{ type: Number, required: true },  
+  gender: 	    			{ type: String, required: true },
+  address:    				{ type: String, required: true },
+  location:    				{ type: String, required: true },
+  date_created: 			{ type: Date },
+  date_updated: 			{ type: Date, default: Date.now }, //update whenever the ngo.save() function is called.
+  resume:    				{ type: Boolean, required: true, default:0 },
+  voided:    				{ type: Boolean, required: true, default:0 },
+
+  
+}));
+
 
 
 //--------------------NGO Collection Model------------------------------
@@ -49,13 +68,36 @@ module.exports.NGO = mongoose.model('NGO', new Schema({
 	*/
 
 
-
-  registration_status: 		{ type: String, required: true },
+  registration_status: 		{ type: Boolean, required: true },
   description:        		{ type: String, required: true },
   contact:    				{ type: Number, required: true },
   contact_person:			{ type: String, required: true },
   website:    				{ type: String},
-  voided:    				{ type: Boolean, required: true },
+  voided:    				{ type: Boolean, required: true, default:0 },
+
+  
+}));
+
+
+
+
+
+//--------------------Opportunity Collection Model------------------------------
+module.exports.NGO_Opportunity = mongoose.model('NGO_Opportunity', new Schema({
+  id:           			ObjectId,
+  //Ngo_id   = auto incrementing variable needed. (Unique)
+  name: 	    			{ type: String, required: true },
+  description: 	    		{ type: String, required: true },
+  opportunity_type: 		{ type: Date },
+  cause:    				{ type: [Number]},
+  location:    				{ type: String, required: true }, //cause array, containing id & string  
+  required_skills:    		{ type: String, required: true },
+  date_start: 			    { type: Date },
+  date_end: 			    { type: Date },
+  compensation:    			{ type: String, required: true },
+  date_created: 			{ type: Date },
+  date_updated: 			{ type: Date, default: Date.now }, //update whenever the ngo.save() function is called.
+  voided:    				{ type: Boolean, required: true, default:0 },
 
   
 }));
