@@ -55,7 +55,6 @@ module.exports.NGO = mongoose.model('NGO', new Schema({
   , updated_at    : { type: Date }
 	});
 
-
 	ItemSchema.pre('save', function(next){
 	  now = new Date();
 	  this.updated_at = now;
