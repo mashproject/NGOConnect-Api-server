@@ -21,8 +21,6 @@ router.get('/register', function(req, res) {
 
 router.post('/register', function(req, res) {
   console.log(req.body);
-
-
   /* 
   Username and password will be stored in USERS collection
   Volunteer and NGO collections will be selected on the basis of "usertype" variable.
@@ -34,7 +32,7 @@ router.post('/register', function(req, res) {
       password:   hash,
     });
 
-    user.save(function(err) {
+    user.save(function(err) { //save user-email and password in "USERS" collection.
         if (err) {
           var error = 'Something bad happened! Please try again.';
           if (err.code === 11000) {
@@ -44,60 +42,58 @@ router.post('/register', function(req, res) {
             res.json({"res_code":4006, "error":err})
           }
           //res.render('register.jade', { error: error });
-        } else {//if email and password are successfully stored, then store volunteer or NGO details.
+        } else {//if saving of user-email and password are successful, then store volunteer or NGO details.
 
               if(req.body.usertype == 0){ 
 
-              //0 for volunteer, 1 for NGO
-                var volunteer = new models.Volunteer({
-                  first_name:  req.body.first_name,
-                  last_name:   req.body.last_name,
-                  contact:     req.body.contact,
-                  address:     req.body.address,
-                  dob:         req.body.dob,
-                  location:    req.body.location,
-                  gender:      req.body.gender,
-                  resume:      req.body.resume
-                });
+                    //0 for volunteer, 1 for NGO
+                      var volunteer = new models.Volunteer({
+                        first_name:  req.body.first_name,
+                        last_name:   req.body.last_name,
+                        contact:     req.body.contact,
+                        address:     req.body.address,
+                        dob:         req.body.dob,
+                        location:    req.body.location,
+                        gender:      req.body.gender,
+                        resume:      req.body.resume
+                      });
 
-                volunteer.save(function(err) {
-                  if (err) {
-                      var error = 'Something bad happened! Please try again.';
-                      res.json({"res_code":4006, "error":err})
-                  }
-                }
+                      volunteer.save(function(err) {
+                        if (err) {
+                            var error = 'Something bad happened! Please try again.';
+                            res.json({"res_code":4006, "error":err})
+                        }
+                      });
 
                }else if(req.body.usertype==1){ // if NGO details to be saved.
 
-                var ngo = new models.Ngo({
-                  name:                 req.body.name,
-                  location:             req.body.location,
-                  //date_created needs to be added here.
-                  registration_status:  req.body.registration_status,
-                  description:          req.body.description,
-                  contact:              req.body.contact,
-                  contact_person:       req.body.contact_person,
-                  website:              req.body.website
-                });
+                    var ngo = new models.Ngo({
+                      name:                 req.body.name,
+                      location:             req.body.location,
+                      //date_created needs to be added here.
+                      registration_status:  req.body.registration_status,
+                      description:          req.body.description,
+                      contact:              req.body.contact,
+                      contact_person:       req.body.contact_person,
+                      website:              req.body.website
+                    });
 
-                ngo.save(function(err) {
-                  if (err) {
-                      var error = 'Something bad happened! Please try again.';
-                      res.json({"res_code":4006, "error":err})
+                    ngo.save(function(err) {
+                      if (err) {
+                          var error = 'Something bad happened! Please try again.';
+                          res.json({"res_code":4006, "error":err})
+                      }
+                      //res.render('register.jade', { error: error });
+                    });
+
                 }
-                  
-                  //res.render('register.jade', { error: error });
-
-                }
-
-              }
               
               //if users collection is updated successfully and then entries to NGO or Volunteer collection has been entered successfully then create session for the user and log him/her in.            
 
               utils.createUserSession(req, res, user);
               res.json({"res_code":4001});
               //res.redirect('/dashboard');
-        }
+           }
       });
   
 });

@@ -45,10 +45,11 @@ router.post('/createopportunity', utils.requireLogin, function(req, res){
           } else { 
             res.json({"res_code":4006, "error":err})
           }
+        }
+
+	});
 
 });
-
-
 
 module.exports = router;
 
