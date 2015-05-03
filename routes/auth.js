@@ -42,7 +42,7 @@ router.post('/register', function(req, res) {
             res.json({"res_code":4006, "error":err})
           }
           //res.render('register.jade', { error: error });
-        } else {//if saving of user-email and password are successful, then store volunteer or NGO details.
+        } else {//if saving of user-email and password are successful, then store volunteer or NGO details, in their respective collections.
 
               if(req.body.usertype == 0){ 
 

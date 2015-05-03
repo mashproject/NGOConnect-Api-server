@@ -4,6 +4,8 @@ var utils = require('../utils');
 
 var router = express.Router();
 
+
+//All routes other then related to authentication go in this file.
 /**
  * Render the home page.
  */

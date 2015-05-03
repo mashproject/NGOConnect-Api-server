@@ -16,7 +16,7 @@ var middleware = require('./middleware');
  *  @param {Object} req - The http request object.
  *  @param {Object} res - The http response object.
  *  @param {Object} user - A user object.
- *  author: Hemant Kumar - hemant6488@gmail.com
+ *  author: Hemant Kumar - hemant6488@gmail.com.
  */
 module.exports.createUserSession = function(req, res, user) {
   var cleanUser = {

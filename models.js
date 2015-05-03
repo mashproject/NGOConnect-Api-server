@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
 /**
- * Our User model.
+ * Models.
  *
  * This is how we create, edit, delete, and retrieve user accounts via MongoDB.
  */
