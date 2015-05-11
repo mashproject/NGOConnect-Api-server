@@ -18,6 +18,14 @@ router.get('/', function(req, res) {
  */
 router.get('/dashboard', utils.requireLogin, function(req, res) {
 	console.log('dashboard reached');
+	 if(req.session.user==0)
+  {
+   res.json("volunteer"); 
+   }
+   else 
+  {
+ res.json("ngo"); 
+   }
 	res.json(1);
   //res.render('dashboard.jade');
 });
