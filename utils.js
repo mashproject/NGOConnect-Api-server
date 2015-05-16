@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 var express = require('express');
 var mongoose = require('mongoose');
 var session = require('client-sessions');
-
+require('dotenv').load();
 var middleware = require('./middleware');
 
 /**
@@ -16,11 +16,10 @@ var middleware = require('./middleware');
  *  @param {Object} req - The http request object.
  *  @param {Object} res - The http response object.
  *  @param {Object} user - A user object.
+ *  author: Hemant Kumar - hemant6488@gmail.com.
  */
 module.exports.createUserSession = function(req, res, user) {
   var cleanUser = {
-    firstName:  user.firstName,
-    lastName:   user.lastName,
     email:      user.email,
     data:       user.data || {},
   };
@@ -40,7 +39,7 @@ module.exports.createUserSession = function(req, res, user) {
  * @returns {Object} - An Express app object.
  */
 module.exports.createApp = function() {
-  mongoose.connect('mongodb://localhost/ngo1');
+  mongoose.connect('mongodb://localhost/ngoconnect');
 
   var app = express();
   app.all('*', function(req, res, next) {
@@ -56,7 +55,7 @@ module.exports.createApp = function() {
   app.use(bodyParser.json());
   app.use(session({
     cookieName: 'session',
-    secret: 'somerandomstringasndjksajnjndkcasdnascdnjkcajksdjnkjsnd',
+    secret: process.env.secret_key,
     duration: 30 * 60 * 1000,
     activeDuration: 5 * 60 * 1000,
   }));
