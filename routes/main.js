@@ -25,39 +25,55 @@ router.get('/dashboard', utils.requireLogin, function(req, res) {
  * Render the search page.
  */
  router.get('/search', function(req, res) {
-	
-	// Retrieve
-var MongoClient = require('mongodb').MongoClient;
-
-// Connect to the db
-
-  var databaseUrl = "mongodb://localhost:27017/ngoconnect1"; // "username:password@example.com/mydb"
+ 	
+var databaseUrl = "mongodb://localhost:27017/ngoconnect1"; // "username:password@example.com/mydb"
 var collections = ["ngoopportunity"]
 var db = require("mongojs").connect(databaseUrl, collections);
-
-  	var query="";
-	if(req.ngoname){
+	console.log();
+  	var query="{$or:[";
+	if(req.query.ngoname){
 		query += "{'ngo.name':/";
-        query += req.name;
-        query += "/},";
+        query += req.query.ngoname;
+        query += "/}";
 	}
 
-	if(req.ngolocation){
+	if(req.query.ngolocation){
+		if(query.length>1)
+			query += ","
 		query += "{'location.name':/";
-        query += req.loc;
-	    query += "/},";
+        query += req.query.ngolocation;
+	    query += "/}";
     }
-	if(req.cause){
+	if(req.query.cause){
+		if(query.length>1)
+			query += ","
 	 query += "{'cause.name':/";
-     query += req.cause;
-     query += "/},";
+     query += req.query.cause;
+     query += "/}";
 
 	}
-	console.log(db.ngoopportunity.find());
-	/*if(query.length>2){
-res.json(collection.find({$or:[query.substr(1,query.length -2)]}));
-	console.log('dashboard reached');
-	}*/
+
+	
+	/*db.ngoopportunity.find().toArray(function(err, documents) {
+       if (err) {console.log(err);}
+       else{
+       	//res.json(documents);
+       	}
+      });*/
+	query += "]}" ;
+	console.log(query);
+	if(query.length > 10){
+		db.ngoopportunity.find(query).toArray(function(err, documents) {
+       if (err) {console.log(err);}
+       else{
+       	console.log(query);
+       	console.log(documents);
+       	res.json(documents);
+       	console.log('dashboard reached');
+       	}  	
+      });
+	console.log('da');
+	}
 
   //res.render('dashboard.jade');
 });
