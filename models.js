@@ -35,7 +35,26 @@ module.exports.Volunteer = mongoose.model('Volunteer', new Schema({
   
 }));
 
+//--------------------Volunteer Qualification Model------------------------------
+module.exports.V_Qualification = mongoose.model('V_Qualification', new Schema({
+  id:           ObjectId,
+  //Voluteer_id   = auto incrementing variable needed. (Unique)
+  voluteer_id:  {type: Schema.Types.ObjectId, ref: 'Volunteer'},
+  senior_secondary:     { type: String},
+  higher_secondary:     { type: String},
+  undergraduate:        { type: String},
+  postgraduate:         { type: String}
+}));
 
+//--------------------Connection Model------------------------------
+module.exports.Connection = mongoose.model('Connection', new Schema({
+  id:           ObjectId,
+  //Voluteer_id   = auto incrementing variable needed. (Unique)
+  voluteer_id:  {type: Schema.Types.ObjectId, ref: 'Volunteer'},
+  opportunity_id:  {type: Schema.Types.ObjectId, ref: 'NGO_Opportunity'},
+  validation: { type: Boolean, required: true, default:0 }
+
+}));
 
 //--------------------NGO Collection Model------------------------------
 module.exports.NGO = mongoose.model('NGO', new Schema({
@@ -100,3 +119,33 @@ module.exports.NGO_Opportunity = mongoose.model('NGO_Opportunity', new Schema({
 
   
 }));
+
+//--------------------Ngo location Collection Model------------------------------
+module.exports.NGO_Location = mongoose.model('NGO_Location', new Schema({
+  id:                 ObjectId,
+  Ngo_id:             {type: Schema.Types.ObjectId, ref: 'NGO'},
+  address1:             { type: String, required: true },
+  address2:            { type: String},
+  city:            { type: String, required: true},
+  state:            { type: String, required: true},
+  country:            { type: String, required: true},
+  title:            { type: String, required: true},
+  validation:           { type: Boolean, required: true, default:0 },
+  date_created:           { type: Date },
+  pincode:            { type: Number, required: true,},
+  voided:           { type: Boolean, required: true, default:0 },
+  
+}));
+
+//--------------------Cause Collection Model------------------------------
+module.exports.Cause = mongoose.model('Cause', new Schema({
+  id:                 ObjectId,
+  //Ngo_id   = auto incrementing variable needed. (Unique)
+  cause_name:             { type: String, required: true },
+  description:            { type: String, required: true },
+  date_created:           { type: Date },
+  verification_created:           { type: Date },
+  creator_name:           { type: String, required: true }
+  
+}));
+

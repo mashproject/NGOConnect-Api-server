@@ -30,28 +30,27 @@ var databaseUrl = "mongodb://localhost:27017/ngoconnect1"; // "username:password
 var collections = ["ngoopportunity"]
 var db = require("mongojs").connect(databaseUrl, collections);
 	console.log();
-  	var query="{$or:[";
+	
+	var query1="/";
+	var query2="/";
+	var query3="/";
+
 	if(req.query.ngoname){
-		query += "{'ngo.name':/";
-        query += req.query.ngoname;
-        query += "/}";
+        query1 += req.query.ngoname;
+        query1 += "/}";
 	}
+	else{query1 ="{$exists: true}";}
 
 	if(req.query.ngolocation){
-		if(query.length>1)
-			query += ","
-		query += "{'location.name':/";
-        query += req.query.ngolocation;
-	    query += "/}";
+        query2 += req.query.ngolocation;
+	    query2 += "/";
     }
+    else{query2 ="{$exists: true}";}
 	if(req.query.cause){
-		if(query.length>1)
-			query += ","
-	 query += "{'cause.name':/";
-     query += req.query.cause;
-     query += "/}";
-
+     query3 += req.query.cause;
+     query3 += "/";
 	}
+	else{query3 ="{$exists: true}";}
 
 	
 	/*db.ngoopportunity.find().toArray(function(err, documents) {
@@ -60,20 +59,19 @@ var db = require("mongojs").connect(databaseUrl, collections);
        	//res.json(documents);
        	}
       });*/
-	query += "]}" ;
-	console.log(query);
-	if(query.length > 10){
-		db.ngoopportunity.find(query).toArray(function(err, documents) {
+	
+	console.log(query1);
+	
+		db.ngoopportunity.find({$and:[{'ngo.name':/live/},{'location.name':query2},{'cause.name':query3}]}).toArray(function(err, documents) {
        if (err) {console.log(err);}
        else{
-       	console.log(query);
+       	//console.log(query);
        	console.log(documents);
        	res.json(documents);
        	console.log('dashboard reached');
        	}  	
       });
 	console.log('da');
-	}
 
   //res.render('dashboard.jade');
 });
