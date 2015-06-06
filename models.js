@@ -19,7 +19,6 @@ module.exports.User = mongoose.model('User', new Schema({
 //--------------------Volunteer Collection Model------------------------------
 module.exports.Volunteer = mongoose.model('Volunteer', new Schema({
   id:           ObjectId,
-  voluteer_id:  ObjectId,
   first_name: 	    		{ type: String, required: true },
   last_name: 	    		{ type: String, required: true },
   dob: 						{ type: Date },
@@ -60,7 +59,6 @@ module.exports.Connection = mongoose.model('Connection', new Schema({
 module.exports.NGO = mongoose.model('NGO', new Schema({
   id:           ObjectId,
   //Ngo_id   = auto incrementing variable needed. (Unique)
-  Ngo_id:       ObjectId,
   name: 	    			{ type: String, required: true },
   location:    				{ type: String, required: true },
   date_created: 			{ type: Date },

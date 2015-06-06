@@ -30,27 +30,33 @@ var databaseUrl = "mongodb://localhost:27017/ngoconnect1"; // "username:password
 var collections = ["ngoopportunity"]
 var db = require("mongojs").connect(databaseUrl, collections);
 	console.log();
-	
-	var query1="/";
-	var query2="/";
-	var query3="/";
 
-	if(req.query.ngoname){
-        query1 += req.query.ngoname;
-        query1 += "/}";
-	}
-	else{query1 ="{$exists: true}";}
+var query1 = {};
+var query2 = {};
+var query3 = {};
+if(req.query.ngoname){
+        query1['ngo.name'] = eval('/'+req.query.ngoname+'/');
+  }
+else{
+  var operator = {};
+operator['$exists'] = true;
+query1['ngo.name'] = operator;
+}  
 
 	if(req.query.ngolocation){
-        query2 += req.query.ngolocation;
-	    query2 += "/";
+        query2['location.name'] = eval("/"+req.query.ngolocation+"/");
     }
-    else{query2 ="{$exists: true}";}
+    else{
+       var operator = {};
+operator['$exists'] = true;
+query2['location.name'] = operator;}
+
 	if(req.query.cause){
-     query3 += req.query.cause;
-     query3 += "/";
+     query3['cause.name'] = eval('/'+req.query.cause+'/') ;
 	}
-	else{query3 ="{$exists: true}";}
+	else{var operator = {};
+operator['$exists'] = true;
+query3['cause.name'] = operator;}
 
 	
 	/*db.ngoopportunity.find().toArray(function(err, documents) {
@@ -61,8 +67,9 @@ var db = require("mongojs").connect(databaseUrl, collections);
       });*/
 	
 	console.log(query1);
-	
-		db.ngoopportunity.find({$and:[{'ngo.name':/live/},{'location.name':query2},{'cause.name':query3}]}).toArray(function(err, documents) {
+	console.log(query2);
+  console.log(query3);
+		db.ngoopportunity.find({$or:[query1,query2,query3]}).toArray(function(err, documents) {
        if (err) {console.log(err);}
        else{
        	//console.log(query);
