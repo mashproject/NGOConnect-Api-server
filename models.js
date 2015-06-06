@@ -19,7 +19,7 @@ module.exports.User = mongoose.model('User', new Schema({
 //--------------------Volunteer Collection Model------------------------------
 module.exports.Volunteer = mongoose.model('Volunteer', new Schema({
   id:           ObjectId,
-  //Ngo_id   = auto incrementing variable needed. (Unique)
+  voluteer_id:  ObjectId,
   first_name: 	    		{ type: String, required: true },
   last_name: 	    		{ type: String, required: true },
   dob: 						{ type: Date },
@@ -60,6 +60,7 @@ module.exports.Connection = mongoose.model('Connection', new Schema({
 module.exports.NGO = mongoose.model('NGO', new Schema({
   id:           ObjectId,
   //Ngo_id   = auto incrementing variable needed. (Unique)
+  Ngo_id:       ObjectId,
   name: 	    			{ type: String, required: true },
   location:    				{ type: String, required: true },
   date_created: 			{ type: Date },
@@ -104,6 +105,7 @@ module.exports.NGO = mongoose.model('NGO', new Schema({
 module.exports.NGO_Opportunity = mongoose.model('NGO_Opportunity', new Schema({
   id:           			ObjectId,
   //Ngo_id   = auto incrementing variable needed. (Unique)
+   Ngo_id:             {type: Schema.Types.ObjectId, ref: 'NGO'},
   name: 	    			{ type: String, required: true },
   description: 	    		{ type: String, required: true },
   opportunity_type: 		{ type: Date },
@@ -141,6 +143,7 @@ module.exports.NGO_Location = mongoose.model('NGO_Location', new Schema({
 module.exports.Cause = mongoose.model('Cause', new Schema({
   id:                 ObjectId,
   //Ngo_id   = auto incrementing variable needed. (Unique)
+   Ngo_id:             {type: Schema.Types.ObjectId, ref: 'NGO'},
   cause_name:             { type: String, required: true },
   description:            { type: String, required: true },
   date_created:           { type: Date },
