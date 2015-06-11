@@ -20,7 +20,7 @@ router.get('/register', function(req, res) {
  */
 
 router.post('/register', function(req, res) {
-  console.log(req.body);
+  
   /* 
   Username and password will be stored in USERS collection
   Volunteer and NGO collections will be selected on the basis of "usertype" variable.
@@ -30,6 +30,7 @@ router.post('/register', function(req, res) {
     var user = new models.User({
       email:      req.body.email,
       password:   hash,
+      usertype: req.body.usertype,
     });
 
     user.save(function(err) { //save user-email and password in "USERS" collection.
@@ -41,6 +42,7 @@ router.post('/register', function(req, res) {
           } else { 
             res.json({"res_code":4006, "error":err})
           }
+          
           //res.render('register.jade', { error: error });
         } else {//if saving of user-email and password are successful, then store volunteer or NGO details, in their respective collections.
 
@@ -48,6 +50,7 @@ router.post('/register', function(req, res) {
 
                     //0 for volunteer, 1 for NGO
                       var volunteer = new models.Volunteer({
+                        volunteer_id: user._id,
                         first_name:  req.body.first_name,
                         last_name:   req.body.last_name,
                         contact:     req.body.contact,
@@ -67,7 +70,8 @@ router.post('/register', function(req, res) {
 
                }else if(req.body.usertype==1){ // if NGO details to be saved.
 
-                    var ngo = new models.Ngo({
+                    var ngo = new models.NGO({
+                      ngo_id: user._id,
                       name:                 req.body.name,
                       location:             req.body.location,
                       //date_created needs to be added here.
@@ -75,11 +79,12 @@ router.post('/register', function(req, res) {
                       description:          req.body.description,
                       contact:              req.body.contact,
                       contact_person:       req.body.contact_person,
-                      website:              req.body.website
+                      // website:              req.body.website
                     });
 
                     ngo.save(function(err) {
                       if (err) {
+                      
                           var error = 'Something bad happened! Please try again.';
                           res.json({"res_code":4006, "error":err})
                       }
@@ -87,9 +92,9 @@ router.post('/register', function(req, res) {
                     });
 
                 }
-              
+             
               //if users collection is updated successfully and then entries to NGO or Volunteer collection has been entered successfully then create session for the user and log him/her in.            
-
+            
               utils.createUserSession(req, res, user);
               res.json({"res_code":4001});
               //res.redirect('/dashboard');
@@ -115,7 +120,7 @@ router.get('/login', function(req, res) {
 
 router.post('/login', function(req, res) {
   
-  models.User.findOne({ email: req.body.email }, 'firstName lastName email password data', function(err, user) {
+  models.User.findOne({ email: req.body.email }, 'firstName lastName email password usertype data', function(err, user) {
     if (!user) {
       res.json({"res_code":4007});
       //res.render('login.jade', { error: "Incorrect email / password." });
@@ -123,7 +128,7 @@ router.post('/login', function(req, res) {
       if (bcrypt.compareSync(req.body.password, user.password)) {
         utils.createUserSession(req, res, user);
         res.json({"res_code":4002});
-        //res.redirect('/dashboard');
+      
       } else {
         res.json({"res_code":4008});
         //res.render('login.jade', { error: "Incorrect email / password."  });

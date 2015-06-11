@@ -1,7 +1,11 @@
+var mongoose = require('mongoose');
+
+var Schema = mongoose.Schema;
+var ObjectId = Schema.ObjectId;
 var express = require('express');
+var models = require('../models');
 
 var utils = require('../utils');
-
 var router = express.Router();
 
 
@@ -18,15 +22,24 @@ router.get('/', function(req, res) {
  */
 router.get('/dashboard', utils.requireLogin, function(req, res) {
 	console.log('dashboard reached');
-	 if(req.session.user==0)
+	 if(req.session.user.usertype==0)
   {
-   res.json("volunteer"); 
+      models.Volunteer.findOne({ volunteer_id: req.session.user._id }, ' first_name  last_name  dob  contact  gender  address  location  date_created  date_updated  resume ', function(err, volunteer){
+       res.json(volunteer);
+     });
+  
+      //res.render('login.jade', { error: "Incorrect email / password." });
+  
    }
    else 
   {
- res.json("ngo"); 
+  models.NGO.findOne({ ngo_id: req.session.user._id }, ' name  location  date_created 	date_updated   registration_status description  contact contact_person', function(err, ngo){
+       res.json(ngo);
+     });
+  
+
    }
-	res.json(1);
+
   //res.render('dashboard.jade');
 });
 
@@ -36,17 +49,13 @@ router.post('/createopportunity', utils.requireLogin, function(req, res){
         name:                 req.body.name,
 		location:             req.body.location,
 		description:          req.body.description,
-		cause: 				  req.body.cause,
+	//	cause: 				  req.body.cause,
 		required_skills:      req.body.required_skills,
 		//date_created needs to be added here.
-		compensation: 		  req.body.compensation,
-		description:          req.body.description,
-		contact:              req.body.contact,
-		contact_person:       req.body.contact_person,
-		website:              req.body.website
+		compensation: 		  req.body.compensation
     });
 
-    user.save(function(err) {
+    ngoOpportunity.save(function(err) {
         if (err) {
           var error = 'Something bad happened! Please try again.';
           if (err.code === 11000) {
@@ -59,6 +68,22 @@ router.post('/createopportunity', utils.requireLogin, function(req, res){
 
 	});
 
+});
+
+router.post('/updateopportunity',utils.requireLogin, function(req,res) {
+  models.NGO_Opportunity.findById(req.body.id, function(err, doc) {
+    if (!err) {
+      for(var i in req.body) {
+  if(req.body[i] != doc[i]){
+    doc[i] = req.body[i];
+    }
+  }
+    
+      doc.save();
+  
+
+  }
+});
 });
 
 module.exports = router;

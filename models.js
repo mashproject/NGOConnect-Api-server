@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
-
+var autoIncrement = require('mongoose-auto-increment');
 /**
  * Models.
  *
@@ -12,6 +12,7 @@ module.exports.User = mongoose.model('User', new Schema({
   id:           ObjectId,
   email:        { type: String, required: true , unique: true },
   password:     { type: String, required: true },
+  usertype:     {type: Boolean,required:true },
   data:         Object,
 }));
 
@@ -19,7 +20,7 @@ module.exports.User = mongoose.model('User', new Schema({
 //--------------------Volunteer Collection Model------------------------------
 module.exports.Volunteer = mongoose.model('Volunteer', new Schema({
   id:           ObjectId,
-  //Ngo_id   = auto incrementing variable needed. (Unique)
+  volunteer_id:  {type: ObjectId},
   first_name: 	    		{ type: String, required: true },
   last_name: 	    		{ type: String, required: true },
   dob: 						{ type: Date },
@@ -40,13 +41,12 @@ module.exports.Volunteer = mongoose.model('Volunteer', new Schema({
 //--------------------NGO Collection Model------------------------------
 module.exports.NGO = mongoose.model('NGO', new Schema({
   id:           ObjectId,
+  ngo_id:     {type:ObjectId},
   //Ngo_id   = auto incrementing variable needed. (Unique)
   name: 	    			{ type: String, required: true },
   location:    				{ type: String, required: true },
   date_created: 			{ type: Date },
   date_updated: 			{ type: Date, default: Date.now }, //update whenever the ngo.save() function is called.
-
-
   /*Example of updating the "date_created" & "date_update" fields
 
   var ItemSchema = new Schema({
@@ -65,8 +65,6 @@ module.exports.NGO = mongoose.model('NGO', new Schema({
 	});
 
 	*/
-
-
   registration_status: 		{ type: Boolean, required: true },
   description:        		{ type: String, required: true },
   contact:    				{ type: Number, required: true },
@@ -77,7 +75,7 @@ module.exports.NGO = mongoose.model('NGO', new Schema({
   
 }));
 
-
+NGO.plugin(autoIncrement.plugin, { model: 'NGO', field: 'ID' });
 
 
 

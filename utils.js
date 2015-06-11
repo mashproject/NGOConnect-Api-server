@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var session = require('client-sessions');
 require('dotenv').load();
 var middleware = require('./middleware');
-
+var autoIncrement = require('mongoose-auto-increment');
 /**
  * Given a user object:
  *
@@ -19,11 +19,15 @@ var middleware = require('./middleware');
  *  author: Hemant Kumar - hemant6488@gmail.com.
  */
 module.exports.createUserSession = function(req, res, user) {
+ 
   var cleanUser = {
+    _id: user._id,
     email:      user.email,
-    data:       user.data || {},
+    usertype : user.usertype,
+   
   };
-
+  
+  
   req.session.user = cleanUser;
   req.user = cleanUser;
   res.locals.user = cleanUser;
@@ -39,8 +43,8 @@ module.exports.createUserSession = function(req, res, user) {
  * @returns {Object} - An Express app object.
  */
 module.exports.createApp = function() {
-  mongoose.connect('mongodb://localhost/ngoconnect');
-
+  var connection= mongoose.createConnection('mongodb://localhost/ngoconnect');
+  autoIncrement.initialize(connection);
   var app = express();
   app.all('*', function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
