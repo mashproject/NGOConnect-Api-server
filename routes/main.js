@@ -20,7 +20,7 @@ var router = express.Router();
 /**
  * Render the dashboard page.
  */
-<<<<<<< HEAD
+
 router.get('/dashboard', utils.requireLogin, function(req, res) {
 	console.log('dashboard reached');
 	 if(req.session.user.usertype==0)
@@ -40,20 +40,7 @@ router.get('/dashboard', utils.requireLogin, function(req, res) {
   
 
    }
-=======
- router.get('/dashboard', utils.requireLogin, function(req, res) {
-   console.log('dashboard reached');
-   if(req.session.user==0)
-   {
-     res.json("volunteer"); 
-   }
-   else 
-   {
-     res.json("ngo"); 
-   }
-   res.json(1);
-  //res.render('dashboard.jade');
-});
+ 
 
 
 /**
@@ -102,7 +89,6 @@ else{
        }  	
      });
  console.log('da');
->>>>>>> fa2b663b6362975fe967321c823f85b02d7b92a2
 
   //res.render('dashboard.jade');
 });
@@ -110,7 +96,7 @@ else{
 
 router.post('/createopportunity', utils.requireLogin, function(req, res){
 	var ngoOpportunity = new models.NGO_Opportunity({
-<<<<<<< HEAD
+
     name:                 req.body.name,
     location:             req.body.location,
     description:          req.body.description,
@@ -136,33 +122,6 @@ router.post('/createopportunity', utils.requireLogin, function(req, res){
     }
 
   });
-=======
-    name:                 req.body.name,
-    location:             req.body.location,
-    description:          req.body.description,
-    cause: 				  req.body.cause,
-    required_skills:      req.body.required_skills,
-		//date_created needs to be added here.
-		compensation: 		  req.body.compensation,
-		description:          req.body.description,
-		contact:              req.body.contact,
-		contact_person:       req.body.contact_person,
-		website:              req.body.website
-  });
-
-  user.save(function(err) {
-    if (err) {
-      var error = 'Something bad happened! Please try again.';
-      if (err.code === 11000) {
-        error = 'That email is already taken, please try another.';
-        res.json({"res_code":4005});
-      } else { 
-        res.json({"res_code":4006, "error":err})
-      }
-    }
-
-  });
->>>>>>> fa2b663b6362975fe967321c823f85b02d7b92a2
 
 });
 
