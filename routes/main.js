@@ -13,13 +13,14 @@ var router = express.Router();
 /**
  * Render the home page.
  */
-router.get('/', function(req, res) {
+ router.get('/', function(req, res) {
   //res.render('index.jade');
 });
 
 /**
  * Render the dashboard page.
  */
+<<<<<<< HEAD
 router.get('/dashboard', utils.requireLogin, function(req, res) {
 	console.log('dashboard reached');
 	 if(req.session.user.usertype==0)
@@ -39,6 +40,69 @@ router.get('/dashboard', utils.requireLogin, function(req, res) {
   
 
    }
+=======
+ router.get('/dashboard', utils.requireLogin, function(req, res) {
+   console.log('dashboard reached');
+   if(req.session.user==0)
+   {
+     res.json("volunteer"); 
+   }
+   else 
+   {
+     res.json("ngo"); 
+   }
+   res.json(1);
+  //res.render('dashboard.jade');
+});
+
+
+/**
+ * Render the search page.
+ */
+ router.get('/search', function(req, res) {
+ 	
+var databaseUrl = "mongodb://localhost:27017/ngoconnect1"; // "username:password@example.com/mydb"
+var collections = ["ngoopportunity"]
+var db = require("mongojs").connect(databaseUrl, collections);
+console.log();
+
+var query1 = {};
+var query2 = {};
+var query3 = {};
+if(req.query.ngoname){
+  query1['ngo.name'] = eval('/'+req.query.ngoname+'/');
+}
+else{
+  var operator = {};
+  operator['$exists'] = true;
+  query1['ngo.name'] = operator;
+}  
+if(req.query.ngolocation){
+  query2['location.name'] = eval("/"+req.query.ngolocation+"/");
+}
+else{
+ var operator = {};
+ operator['$exists'] = true;
+ query2['location.name'] = operator;}
+
+ if(req.query.cause){
+   query3['cause.name'] = eval('/'+req.query.cause+'/') ;
+ }
+ else{var operator = {};
+ operator['$exists'] = true;
+ query3['cause.name'] = operator;}
+
+ db.ngoopportunity.find({$or:[query1,query2,query3]}).toArray(function(err, documents) {
+   if (err) {console.log(err);}
+   else{
+       	//console.log(query);
+       	console.log(documents);
+       	res.json(documents);
+       	console.log('dashboard reached');
+       }  	
+     });
+ console.log('da');
+>>>>>>> fa2b663b6362975fe967321c823f85b02d7b92a2
 
   //res.render('dashboard.jade');
 });
@@ -46,27 +110,59 @@ router.get('/dashboard', utils.requireLogin, function(req, res) {
 
 router.post('/createopportunity', utils.requireLogin, function(req, res){
 	var ngoOpportunity = new models.NGO_Opportunity({
-        name:                 req.body.name,
-		location:             req.body.location,
-		description:          req.body.description,
-	//	cause: 				  req.body.cause,
-		required_skills:      req.body.required_skills,
+<<<<<<< HEAD
+    name:                 req.body.name,
+    location:             req.body.location,
+    description:          req.body.description,
+    cause:          req.body.cause,
+    required_skills:      req.body.required_skills,
+    //date_created needs to be added here.
+    compensation:       req.body.compensation,
+    description:          req.body.description,
+    contact:              req.body.contact,
+    contact_person:       req.body.contact_person,
+    website:              req.body.website
+  });
+
+  user.save(function(err) {
+    if (err) {
+      var error = 'Something bad happened! Please try again.';
+      if (err.code === 11000) {
+        error = 'That email is already taken, please try another.';
+        res.json({"res_code":4005});
+      } else { 
+        res.json({"res_code":4006, "error":err})
+      }
+    }
+
+  });
+=======
+    name:                 req.body.name,
+    location:             req.body.location,
+    description:          req.body.description,
+    cause: 				  req.body.cause,
+    required_skills:      req.body.required_skills,
 		//date_created needs to be added here.
-		compensation: 		  req.body.compensation
-    });
+		compensation: 		  req.body.compensation,
+		description:          req.body.description,
+		contact:              req.body.contact,
+		contact_person:       req.body.contact_person,
+		website:              req.body.website
+  });
 
-    ngoOpportunity.save(function(err) {
-        if (err) {
-          var error = 'Something bad happened! Please try again.';
-          if (err.code === 11000) {
-            error = 'That email is already taken, please try another.';
-            res.json({"res_code":4005});
-          } else { 
-            res.json({"res_code":4006, "error":err})
-          }
-        }
+  user.save(function(err) {
+    if (err) {
+      var error = 'Something bad happened! Please try again.';
+      if (err.code === 11000) {
+        error = 'That email is already taken, please try another.';
+        res.json({"res_code":4005});
+      } else { 
+        res.json({"res_code":4006, "error":err})
+      }
+    }
 
-	});
+  });
+>>>>>>> fa2b663b6362975fe967321c823f85b02d7b92a2
 
 });
 
