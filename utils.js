@@ -5,7 +5,8 @@ var mongoose = require('mongoose');
 var session = require('client-sessions');
 require('dotenv').load();
 var middleware = require('./middleware');
-var autoIncrement = require('mongoose-auto-increment');
+
+//var autoIncrement = require('mongoose-auto-increment');
 /**
  * Given a user object:
  *
@@ -18,16 +19,13 @@ var autoIncrement = require('mongoose-auto-increment');
  *  @param {Object} user - A user object.
  *  author: Hemant Kumar - hemant6488@gmail.com.
  */
+
 module.exports.createUserSession = function(req, res, user) {
- 
-  var cleanUser = {
+   var cleanUser = {
     _id: user._id,
     email:      user.email,
     usertype : user.usertype,
-   
-  };
-  
-  
+   }; 
   req.session.user = cleanUser;
   req.user = cleanUser;
   res.locals.user = cleanUser;
@@ -43,18 +41,20 @@ module.exports.createUserSession = function(req, res, user) {
  * @returns {Object} - An Express app object.
  */
 module.exports.createApp = function() {
-  var connection= mongoose.createConnection('mongodb://localhost/ngoconnect');
-  autoIncrement.initialize(connection);
+  //var connection= mongoose.createConnection('mongodb://localhost:27017/ngoconnect');
+   mongoose.connect('mongodb://localhost/ngoconnect');
+  //autoIncrement.initialize(connection);
   var app = express();
   app.all('*', function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'X-Requested-With, Authorization, Content-Type');
     next();
   });
-  // settings
- // app.set('view engine', 'jade');
 
+  // settings
+  // app.set('view engine', 'jade');
   // middleware
+
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
   app.use(session({
@@ -63,9 +63,9 @@ module.exports.createApp = function() {
     duration: 30 * 60 * 1000,
     activeDuration: 5 * 60 * 1000,
   }));
+
   //app.use(csrf());
   app.use(middleware.simpleAuth);
-
   // routes
   app.use(require('./routes/auth'));
   app.use(require('./routes/main')); 

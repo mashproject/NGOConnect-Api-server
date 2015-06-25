@@ -1,9 +1,7 @@
 var bcrypt = require('bcryptjs');
 var express = require('express');
-
 var models = require('../models');
 var utils = require('../utils');
-
 var router = express.Router();
 
 /**
@@ -20,87 +18,75 @@ router.get('/register', function(req, res) {
  */
 
 router.post('/register', function(req, res) {
-  
   /* 
   Username and password will be stored in USERS collection
   Volunteer and NGO collections will be selected on the basis of "usertype" variable.
   */
-    var salt = bcrypt.genSaltSync(10);
-    var hash = bcrypt.hashSync(req.body.password, salt);
-    var user = new models.User({
-      email:      req.body.email,
-      password:   hash,
-      usertype: req.body.usertype,
-    });
-
-    user.save(function(err) { //save user-email and password in "USERS" collection.
-        if (err) {
-          var error = 'Something bad happened! Please try again.';
-          if (err.code === 11000) {
-            error = 'That email is already taken, please try another.';
-            res.json({"res_code":4005});
-          } else { 
-            res.json({"res_code":4006, "error":err})
+  var salt = bcrypt.genSaltSync(10);
+  var hash = bcrypt.hashSync(req.body.password, salt);
+  var user = new models.User({
+    email:      req.body.email,
+    password:   hash,
+    usertype: req.body.usertype,
+  });
+  user.save(function(err) { //save user-email and password in "USERS" collection.
+    if (err) {
+      var error = 'Something bad happened! Please try again.';
+      if (err.code === 11000) {
+        error = 'That email is already taken, please try another.';
+        res.json({"res_code":4005});
+      } else { 
+        res.json({"res_code":4006, "error":err})
+      }
+      //res.render('register.jade', { error: error });
+    }else {//if saving of user-email and password are successful, then store volunteer or NGO details, in their respective collections.
+      if(req.body.usertype == 0){ 
+         //0 for volunteer, 1 for NGO
+        var volunteer = new models.Volunteer({
+          volunteer_id   :    user._id,
+          first_name     :    req.body.first_name,
+          last_name      :    req.body.last_name,
+          contact        :    req.body.contact,
+          address        :    req.body.address,
+          dob            :    req.body.dob,
+          location       :    req.body.location,
+          gender         :    req.body.gender,
+          resume         :    req.body.resume
+        });
+        volunteer.save(function(err) {
+          if (err) {
+            var error = 'Something bad happened! Please try again.';
+            res.json({"res_code":4006, "error":err});
           }
-          
+        });
+
+      }else if(req.body.usertype==1){ // if NGO details to be saved.
+        var ngo = new models.NGO({
+          ngo_id               :     user._id,
+          name                 :     req.body.name,
+          location             :     req.body.location,
+          //date_created needs to be added here.
+          registration_status  :     req.body.registration_status,
+          description          :     req.body.description,
+          contact              :     req.body.contact,
+          contact_person       :     req.body.contact_person,
+          website              :     req.body.website
+        });
+        ngo.save(function(err) {
+          if (err) {
+            var error = 'Something bad happened! Please try again.';
+            res.json({"res_code":4006, "error":err});
+            //handle error
+          }
           //res.render('register.jade', { error: error });
-        } else {//if saving of user-email and password are successful, then store volunteer or NGO details, in their respective collections.
-
-              if(req.body.usertype == 0){ 
-
-                    //0 for volunteer, 1 for NGO
-                      var volunteer = new models.Volunteer({
-                        volunteer_id: user._id,
-                        first_name:  req.body.first_name,
-                        last_name:   req.body.last_name,
-                        contact:     req.body.contact,
-                        address:     req.body.address,
-                        dob:         req.body.dob,
-                        location:    req.body.location,
-                        gender:      req.body.gender,
-                        resume:      req.body.resume
-                      });
-
-                      volunteer.save(function(err) {
-                        if (err) {
-                            var error = 'Something bad happened! Please try again.';
-                            res.json({"res_code":4006, "error":err})
-                        }
-                      });
-
-               }else if(req.body.usertype==1){ // if NGO details to be saved.
-
-                    var ngo = new models.NGO({
-                      ngo_id: user._id,
-                      name:                 req.body.name,
-                      location:             req.body.location,
-                      //date_created needs to be added here.
-                      registration_status:  req.body.registration_status,
-                      description:          req.body.description,
-                      contact:              req.body.contact,
-                      contact_person:       req.body.contact_person,
-                      // website:              req.body.website
-                    });
-
-                    ngo.save(function(err) {
-                      if (err) {
-                      
-                          var error = 'Something bad happened! Please try again.';
-                          res.json({"res_code":4006, "error":err})
-                      }
-                      //res.render('register.jade', { error: error });
-                    });
-
-                }
-             
-              //if users collection is updated successfully and then entries to NGO or Volunteer collection has been entered successfully then create session for the user and log him/her in.            
-            
-              utils.createUserSession(req, res, user);
-              res.json({"res_code":4001});
-              //res.redirect('/dashboard');
-           }
-      });
-  
+        });
+      }
+      //if users collection is updated successfully and then entries to NGO or Volunteer collection has been entered successfully then create session for the user and log him/her in.            
+      utils.createUserSession(req, res, user);
+      res.json({"res_code":4001});
+      //res.redirect('/dashboard');
+    }
+  });
 });
 
 /**
@@ -115,11 +101,7 @@ router.get('/login', function(req, res) {
  *
  * Once a user is logged in, they will be sent to the dashboard page.
  */
-
-
-
 router.post('/login', function(req, res) {
-  
   models.User.findOne({ email: req.body.email }, 'firstName lastName email password usertype data', function(err, user) {
     if (!user) {
       res.json({"res_code":4007});
@@ -128,7 +110,6 @@ router.post('/login', function(req, res) {
       if (bcrypt.compareSync(req.body.password, user.password)) {
         utils.createUserSession(req, res, user);
         res.json({"res_code":4002});
-      
       } else {
         res.json({"res_code":4008});
         //res.render('login.jade', { error: "Incorrect email / password."  });
