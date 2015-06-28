@@ -8,8 +8,8 @@ var ObjectId = Schema.ObjectId;
  *
  * This is how we create, edit, delete, and retrieve user accounts via MongoDB.
  */
-module.exports.User = mongoose.model('User', new Schema({
-  id         :    ObjectId,
+module.exports.User = mongoose.model('user', new Schema({
+  uuid         :    ObjectId,
   email      :    { type: String, required: true , unique: true },
   password   :    { type: String, required: true },
   usertype   :    {type: Boolean,required:true },
