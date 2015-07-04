@@ -25,7 +25,7 @@ module.exports.createUserSession = function(req, res, user) {
     _id: user._id,
     email:      user.email,
     usertype : user.usertype,
-   }; 
+   };
   req.session.user = cleanUser;
   req.user = cleanUser;
   res.locals.user = cleanUser;
@@ -68,7 +68,7 @@ module.exports.createApp = function() {
   app.use(middleware.simpleAuth);
   // routes
   app.use(require('./routes/auth'));
-  app.use(require('./routes/main')); 
+  app.use(require('./routes/main'));
   return app;
 };
 
@@ -86,6 +86,34 @@ module.exports.requireLogin = function(req, res, next) {
   }
 };
 
+module.exports.validateContactNumber = function(contact) {
+  var phonePattern=/^[0-9]+$/;
+  var bool= phonePattern.test(contact);
+  if(!bool){
+    throw new exception("Invalid contact number");
+  }
+};
+
+module.exports.validateEmail = function(email) {
+  var emailPattern=/[^@]+\@[^@]+\.[^@]+/;
+  var bool= emailPattern.test(email);
+  if(!bool){
+    throw new exception("Invalid email address");
+  }
+};
+
+module.exports.validateUsername = function(username) {
+  var usernamePattern=/^[a-z0-9_-]{3,15}$/;
+  var bool= usernamePattern.test(username);
+  if(!bool){
+    throw new exception("Invalid username");
+  }
+};
+
+module.exports.removeSpacesFromString = function(str){
+  str = str.replace(/\s+/g, '');
+  return str;
+}
 
 /*
 
