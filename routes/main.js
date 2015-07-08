@@ -5,20 +5,20 @@
 // var models = require('../models');
 // var utils = require('../utils');
 // var router = express.Router();
-//
+
 // //All routes other then related to authentication go in this file.
 // /**
 //  * Render the home page.
 //  */
 //  router.get('/', function(req, res) {
-//
+
 //   //res.render('index.jade');
 // });
-//
+
 // /**
 //  * Render the dashboard page.
 //  */
-//
+
 // router.get('/dashboard', utils.requireLogin, function(req, res) {
 // 	console.log('dashboard reached');
 // 	if(req.session.user.usertype==0)
@@ -33,17 +33,17 @@
 //     });
 //   }
 // });
-//
+
 // /**
 //  * Render the search page.
 //  */
 // router.get('/search', function(req, res) {
-//
+
 //   var databaseUrl = "mongodb://localhost:27017/ngoconnect1"; // "username:password@example.com/mydb"
 //   var collections = ["ngoopportunity"]
 //   var db = require("mongojs").connect(databaseUrl, collections);
 //   console.log();
-//
+
 //   var query1 = {};
 //   var query2 = {};
 //   var query3 = {};
@@ -61,7 +61,7 @@
 //     operator['$exists'] = true;
 //     query2['location.name'] = operator;
 //   }
-//
+
 //   if(req.query.cause){
 //     query3['cause.name'] = eval('/'+req.query.cause+'/') ;
 //   }else{
@@ -69,7 +69,7 @@
 //     operator['$exists'] = true;
 //     query3['cause.name'] = operator;
 //   }
-//
+
 //   db.ngoopportunity.find({$or:[query1,query2,query3]}).toArray(function(err, documents) {
 //     if (err) {
 //       console.log(err);
@@ -83,11 +83,11 @@
 //  console.log('da');
 //   //res.render('dashboard.jade');
 // });
-//
-//
+
+
 // router.post('/createopportunity', utils.requireLogin, function(req, res){
 // 	var ngoOpportunity = new models.NGO_Opportunity({
-//
+
 //     name              :     req.body.name,
 //     description       :     req.body.description,
 //     location          :     req.body.location,
@@ -106,7 +106,7 @@
 //     }
 //   });
 // });
-//
+
 // router.post('/updateopportunity',utils.requireLogin, function(req,res) {
 //   models.NGO_Opportunity.findById(req.body.id, function(err, doc) {
 //     if (!err) {
@@ -119,7 +119,7 @@
 //     }
 //   });
 // });
-//
+
 // module.exports = router;
-//
-//
+
+

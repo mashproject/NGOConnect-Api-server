@@ -5,7 +5,6 @@ var mongoose = require('mongoose');
 var session = require('client-sessions');
 require('dotenv').load();
 var middleware = require('./middleware');
-
 //var autoIncrement = require('mongoose-auto-increment');
 /**
  * Given a user object:
@@ -40,7 +39,7 @@ module.exports.createUserSession = function(req, res, user) {
  *
  * @returns {Object} - An Express app object.
  */
-module.exports.createApp = function() {
+module.exports.createApp = function() {  
   //var connection= mongoose.createConnection('mongodb://localhost:27017/ngoconnect');
    mongoose.connect('mongodb://localhost/ngoconnect');
   //autoIncrement.initialize(connection);
@@ -49,11 +48,7 @@ module.exports.createApp = function() {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'X-Requested-With, Authorization, Content-Type');
     next();
-  });
-
-  // settings
-  // app.set('view engine', 'jade');
-  // middleware
+  });  
 
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
@@ -65,10 +60,11 @@ module.exports.createApp = function() {
   }));
 
   //app.use(csrf());
+  
   app.use(middleware.simpleAuth);
   // routes
   app.use(require('./routes/auth'));
-  app.use(require('./routes/main'));
+  // app.use(require('./routes/main'));
   return app;
 };
 
@@ -90,7 +86,7 @@ module.exports.validateContactNumber = function(contact) {
   var phonePattern=/^[0-9]+$/;
   var bool= phonePattern.test(contact);
   if(!bool){
-    throw new exception("Invalid contact number");
+    console.log("Invalid contact number");
   }
 };
 
@@ -98,7 +94,7 @@ module.exports.validateEmail = function(email) {
   var emailPattern=/[^@]+\@[^@]+\.[^@]+/;
   var bool= emailPattern.test(email);
   if(!bool){
-    throw new exception("Invalid email address");
+    console.log("Invalid email address");
   }
 };
 
@@ -106,7 +102,7 @@ module.exports.validateUsername = function(username) {
   var usernamePattern=/^[a-z0-9_-]{3,15}$/;
   var bool= usernamePattern.test(username);
   if(!bool){
-    throw new exception("Invalid username");
+    console.log("Invalid username");
   }
 };
 

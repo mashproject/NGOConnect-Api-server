@@ -1,16 +1,16 @@
 var bcrypt = require('bcryptjs');
 var express = require('express');
-var models = require('../models');
+// var models = require('../models');
 var utils = require('../utils');
 var router = express.Router();
 var userModel = require('../models/user');
 var personModel = require('../models/person');
 
 function checkValidInput(object){
-    if(object.username && object.password && object.is_person && object.given_name && object.family_name && object.contact && object.email){
+    if(object.username && object.password && object.isPerson && object.given_name && object.family_name && object.contact && object.email){
       return object;
     }else{
-      throw new exception("Some fields are empty");
+      console.log("Some fields are empty");
     }
   //TO DO : Regex validation of username and password
   //TO DO: Type validation of each field
@@ -28,7 +28,7 @@ router.post('/register', function(req, res) {
     var user = new userModel.User({
     username:   validatedBody.username,
     password:   validatedBody.password,
-    is_person:  validatedBody.is_person
+    is_person:  validatedBody.isPerson
   });
   user.save(function(err) { //save user-email and password in "USERS" collection.
     if (err) {
@@ -46,7 +46,7 @@ router.post('/register', function(req, res) {
         )
       }
     }else {//if saving of user-email and password are successful, then store volunteer or NGO details, in their respective collections.
-      if(is_person){
+      if(isPerson){
          //true for person, false for organisation
          if(!req.body.address){
            req.body.address=null;
