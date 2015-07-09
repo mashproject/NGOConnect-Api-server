@@ -6,7 +6,7 @@ var utils = require('../utils');
 var userSchema = new Schema({
   username      :    { type: String, required: true , unique: true },
   password      :    { type: String, required: true , unique: true},
-  salt          :    { type: String, required: true , unique: true },
+  salt          :    { type: String, unique: true },
   date_created  :    Date,
   date_updated	:    Date,
   voided       :     { type: Boolean, default: false},

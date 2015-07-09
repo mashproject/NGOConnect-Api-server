@@ -7,18 +7,12 @@ var userModel = require('../models/user');
 var personModel = require('../models/person');
 
 function checkValidInput(object){
-    if(object.username && object.password && object.isPerson && object.given_name && object.family_name && object.contact && object.email){
+    if(object.username && object.password && object.is_person && object.given_name && object.family_name && object.contact && object.email){
       return object;
     }else{
-      console.log("Some fields are empty");
+      throw new Error('insufficient input parameters');
     }
-  //TO DO : Regex validation of username and password
-  //TO DO: Type validation of each field
-    utils.validateContactNumber(object.contact);
-    utils.validateEmail(object.email);
-    utils.validateUsername(object.username);
 }
-
 router.post('/register', function(req, res) {
   /*
   Username and password will be stored in USER collection
@@ -28,7 +22,7 @@ router.post('/register', function(req, res) {
     var user = new userModel.User({
     username:   validatedBody.username,
     password:   validatedBody.password,
-    is_person:  validatedBody.isPerson
+    is_person:  validatedBody.is_person
   });
   user.save(function(err) { //save user-email and password in "USERS" collection.
     if (err) {
@@ -40,13 +34,14 @@ router.post('/register', function(req, res) {
             "message": error}
         );
       } else {
+        console.log(err)
         res.json(
           {"res_code":4006,
           "error":err}
         )
       }
     }else {//if saving of user-email and password are successful, then store volunteer or NGO details, in their respective collections.
-      if(isPerson){
+      if(validatedBody.is_person){
          //true for person, false for organisation
          if(!req.body.address){
            req.body.address=null;
@@ -63,6 +58,7 @@ router.post('/register', function(req, res) {
         });
         person.save(function(err) {
           if (err) {
+            console.log(err);
             res.json({"res_code":4006, "error":err});
           }
         });
